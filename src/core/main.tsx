@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import routes from "./routes";
+import { ThemeProvider } from "@/shared/ui/theme-provider";
 
 const client = new QueryClient();
 const router = createBrowserRouter(routes);
@@ -11,7 +12,9 @@ const router = createBrowserRouter(routes);
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<QueryClientProvider client={client}>
-			<RouterProvider router={router} />
+			<ThemeProvider defaultTheme="dark">
+				<RouterProvider router={router} />
+			</ThemeProvider>
 		</QueryClientProvider>
 	</StrictMode>,
 );
