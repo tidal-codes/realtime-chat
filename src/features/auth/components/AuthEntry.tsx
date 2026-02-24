@@ -1,10 +1,26 @@
 import { Button } from "@/shared/ui/button";
-import EmailField from "./EmailField";
-import { useState } from "react";
-import ConfirmCodeField from "./ConfirmCodeField";
+import { useCodeForm, useEmailForm } from "../hooks/forms";
+import { ShadField } from "@/shared/ui/field";
+import useAuthEntry from "../hooks/useAuthEntry";
+import { Pen } from "lucide-react";
 
 const AuthEntry = () => {
-	const [stage, setStage] = useState<"EMAIL" | "CONFIRM">("EMAIL");
+	const {
+		register: registerEmail,
+		handleSubmit: handleEmailSubmit,
+		errors: emailErrors,
+	} = useEmailForm();
+	const {
+		register: registerCode,
+		handleSubmit: handleCodeSubmit,
+		errors: codeErrors,
+	} = useCodeForm();
+
+	const { stage, setStage, submit } = useAuthEntry({
+		handleEmailSubmit,
+		handleCodeSubmit,
+	});
+
 	return (
 		<div className="w-full max-w-sm bg-card p-3 py-5 rounded-lg">
 			<div className="flex flex-col gap-4">
@@ -22,12 +38,39 @@ const AuthEntry = () => {
 					</div>
 				)}
 
-				<div className="flex flex-col gap-3">
-					<div className="flex flex-col gap-1">
-						<EmailField disabled={stage === "CONFIRM"} />
+				<div className="flex flex-col gap-5">
+					<div className="flex flex-col gap-3">
+						<div className="w-full flex flex-col h-fit relative">
+							<ShadField
+								type="text"
+								register={registerEmail}
+								errors={emailErrors}
+								field="email"
+								disabled={stage === "CONFIRM"}
+								placeholder="email@x.com"
+							/>
+							{stage === "CONFIRM" && (
+								<Button
+									size="icon-xs"
+									className="absolute right-2 top-[50%] -translate-y-[50%]"
+									onClick={() => setStage("EMAIL")}
+								>
+									<Pen />
+								</Button>
+							)}
+						</div>
+						{stage === "CONFIRM" && (
+							<ShadField
+								type="text"
+								register={registerCode}
+								errors={codeErrors}
+								field="code"
+								disabled={false}
+								placeholder="xxxxxx"
+							/>
+						)}
 					</div>
-					{stage === "CONFIRM" && <ConfirmCodeField />}
-					<Button className="w-full" onClick={() => setStage("CONFIRM")}>
+					<Button className="w-full" onClick={submit}>
 						continue
 					</Button>
 				</div>

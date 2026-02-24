@@ -4,6 +4,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../utils/utils";
 import { Label } from "@/shared/ui/label";
 import { Separator } from "@/shared/ui/separator";
+import { Input } from "./input";
+import type {
+	FieldErrors,
+	FieldValues,
+	Path,
+	UseFormRegister,
+} from "react-hook-form";
+import clsx from "clsx";
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
 	return (
@@ -232,8 +240,56 @@ function FieldError({
 	);
 }
 
+interface Props<T extends FieldValues> {
+	disabled?: boolean;
+	register: UseFormRegister<T>;
+	errors: FieldErrors<T>;
+	field: Path<T>;
+	placeholder?: string;
+	label?: string;
+	type?: string;
+}
+
+function ShadField<T extends FieldValues>({
+	disabled = false,
+	register,
+	errors,
+	field,
+	placeholder = "",
+	label,
+	type = "text",
+}: Props<T>) {
+	const errorMessage = errors[field]?.message as string | undefined;
+	const hasError = Boolean(errorMessage);
+	return (
+		<FieldSet className="w-full">
+			<FieldGroup className="gap-2">
+				<Field className="gap-2">
+					{label && <label htmlFor={String(field)}>{label}</label>}
+
+					<Input
+						id={String(field)}
+						type={type}
+						disabled={disabled}
+						placeholder={placeholder}
+						className={clsx(
+							"transition-all",
+							hasError &&
+								"ring-destructive focus-visible:ring-destructive border-destructive",
+						)}
+						{...register(field)}
+					/>
+				</Field>
+
+				{errorMessage && <FieldError>{errorMessage}</FieldError>}
+			</FieldGroup>
+		</FieldSet>
+	);
+}
+
 export {
 	Field,
+	ShadField,
 	FieldLabel,
 	FieldDescription,
 	FieldError,
