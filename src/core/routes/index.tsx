@@ -13,7 +13,7 @@ const routes: RouteObject[] = [
 		element: <ChatPage />,
 		children: [
 			{
-				path: ":userId",
+				path: ":username",
 				element: <ConversationView />,
 			},
 		],

@@ -2,7 +2,7 @@ import { ShadAvatar } from "@/shared/ui/avatar";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router";
 import { conversationsQueryOptions } from "../hooks/Queries/useConversations";
-import { useMemo } from "react";
+import useOtherUserInfo from "../hooks/useOtherUserInfo";
 
 interface Props {
 	username: string;
@@ -14,9 +14,7 @@ const ConversationItem = ({ username }: Props) => {
 		select: (data) => data.byConversationUser_username[username],
 	});
 
-	const otherUserFullName = useMemo(() => {
-		return `${conversation?.otherUser.first_name} ${conversation?.otherUser.last_name}`;
-	}, [conversation?.otherUser.first_name, conversation?.otherUser.last_name]);
+	const { fullName, avatarUrl } = useOtherUserInfo(conversation);
 
 	if (!conversation) return null;
 
@@ -31,14 +29,14 @@ const ConversationItem = ({ username }: Props) => {
 				<div className="flex items-center gap-2">
 					<div>
 						<ShadAvatar
-							avatarUrl={conversation.otherUser.avatar_url}
+							avatarUrl={avatarUrl}
 							alt={conversation.otherUser.username}
 							className="size-12"
 						/>
 					</div>
 					<div className="min-w-0 flex-1 flex flex-col">
 						<div className="w-full flex items-center justify-between gap-2">
-							<p className="truncate">{otherUserFullName}</p>
+							<p className="truncate">{fullName}</p>
 							<p className="text-sm text-muted-foreground text-nowrap">
 								12:23 AM
 							</p>

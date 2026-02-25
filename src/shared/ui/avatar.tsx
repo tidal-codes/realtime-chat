@@ -102,12 +102,12 @@ export function ShadAvatar({
 	...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
 	size?: "default" | "sm" | "lg";
-	avatarUrl: string | null;
+	avatarUrl?: string;
 	alt?: string;
 }) {
 	return (
 		<Avatar {...props}>
-			<AvatarImage src={avatarUrl ?? undefined} alt={alt} />
+			<AvatarImage src={avatarUrl} alt={alt} />
 			<AvatarFallback>CN</AvatarFallback>
 		</Avatar>
 	);
