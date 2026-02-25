@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "../store";
 import supabase from "@/core/supabase/client";
 
-export default function useAuth() {
+export default function useSyncAuth() {
 	const setUser = useAuthStore((state) => state.setUser);
 	const setLoading = useAuthStore((state) => state.setLoading);
 
@@ -16,5 +16,5 @@ export default function useAuth() {
 			setLoading(false);
 		});
 		return () => listener.subscription.unsubscribe();
-	}, []);
+	}, [setUser, setLoading]);
 }
