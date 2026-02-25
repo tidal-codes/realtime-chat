@@ -1,4 +1,5 @@
 import MainLayout from "@/core/Layouts/MainLayout";
+import Sidebar from "@/shared/components/Sidebar";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -16,7 +17,7 @@ const ChatPage = () => {
 					defaultSize={350}
 					maxSize={420}
 				>
-					<div className="w-full h-full bg-card"></div>
+					<Sidebar />
 				</ResizablePanel>
 				<ResizableHandle />
 				<ResizablePanel className="flex-1">

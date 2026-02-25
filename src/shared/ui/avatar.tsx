@@ -96,6 +96,23 @@ function AvatarGroupCount({
 	);
 }
 
+export function ShadAvatar({
+	alt,
+	avatarUrl,
+	...props
+}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
+	size?: "default" | "sm" | "lg";
+	avatarUrl: string | null;
+	alt?: string;
+}) {
+	return (
+		<Avatar {...props}>
+			<AvatarImage src={avatarUrl ?? undefined} alt={alt} />
+			<AvatarFallback>CN</AvatarFallback>
+		</Avatar>
+	);
+}
+
 export {
 	Avatar,
 	AvatarImage,
