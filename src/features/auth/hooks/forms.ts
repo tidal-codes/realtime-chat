@@ -14,6 +14,7 @@ export function useEmailForm() {
 		register,
 		setFocus,
 		handleSubmit,
+		getValues,
 		resetField,
 		formState: { errors },
 	} = useForm<EmailSchemaType>({
@@ -24,6 +25,7 @@ export function useEmailForm() {
 		register,
 		setFocus,
 		handleSubmit,
+		getValues,
 		resetField,
 		errors,
 	};

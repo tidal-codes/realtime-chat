@@ -2,43 +2,52 @@ import { Button } from "@/shared/ui/button";
 import { useCodeForm, useEmailForm } from "../hooks/forms";
 import { ShadField } from "@/shared/ui/field";
 import useAuthEntry from "../hooks/useAuthEntry";
-import { Pen } from "lucide-react";
+import { ArrowRight, CircleCheck } from "lucide-react";
+import { Spinner } from "@/shared/ui/spinner";
 
 const AuthEntry = () => {
 	const {
 		register: registerEmail,
 		handleSubmit: handleEmailSubmit,
+		getValues,
+		setFocus: emailFocus,
 		errors: emailErrors,
 	} = useEmailForm();
 	const {
 		register: registerCode,
 		handleSubmit: handleCodeSubmit,
+		setFocus: codeFocus,
+		resetField,
 		errors: codeErrors,
 	} = useCodeForm();
 
-	const { stage, setStage, submit } = useAuthEntry({
-		handleEmailSubmit,
-		handleCodeSubmit,
-	});
+	const { stage, setStage, submit, emailPending, verifyPending } = useAuthEntry(
+		{
+			handleEmailSubmit,
+			emailFocus,
+			codeFocus,
+			handleCodeSubmit,
+			email: getValues("email"),
+		},
+	);
 
 	return (
-		<div className="w-full max-w-sm bg-card p-3 py-5 rounded-lg">
+		<div className="w-full max-w-sm bg-card p-3 py-4 rounded-xl">
 			<div className="flex flex-col gap-4">
-				{stage === "EMAIL" ? (
-					<div>
-						<h3 className="text-xl capitalize">enter your email to continue</h3>
-					</div>
-				) : (
-					<div>
-						<h3 className="text-xl capitalize">enter confirmation code</h3>
-						<p className="text-muted-foreground text-sm">
-							We’ve sent a confirmation code to your email. If it’s not in your
-							inbox, be sure to check your spam folder.
-						</p>
-					</div>
+				<div>
+					<h3 className="capitalize text-lg">
+						{stage === "EMAIL" ? "enter your email" : "enter confirmation code"}
+					</h3>
+				</div>
+
+				{stage === "CONFIRM" && (
+					<p className="text-muted-foreground text-sm">
+						We’ve sent a confirmation code to your email. If it’s not in your
+						inbox, be sure to check your spam folder.
+					</p>
 				)}
 
-				<div className="flex flex-col gap-5">
+				<div className="flex flex-col gap-8">
 					<div className="flex flex-col gap-3">
 						<div className="w-full flex flex-col h-fit relative">
 							<ShadField
@@ -49,15 +58,6 @@ const AuthEntry = () => {
 								disabled={stage === "CONFIRM"}
 								placeholder="email@x.com"
 							/>
-							{stage === "CONFIRM" && (
-								<Button
-									size="icon-xs"
-									className="absolute right-2 top-[50%] -translate-y-[50%]"
-									onClick={() => setStage("EMAIL")}
-								>
-									<Pen />
-								</Button>
-							)}
 						</div>
 						{stage === "CONFIRM" && (
 							<ShadField
@@ -70,9 +70,39 @@ const AuthEntry = () => {
 							/>
 						)}
 					</div>
-					<Button className="w-full" onClick={submit}>
-						continue
-					</Button>
+					<div className="w-full flex items-center gap-2">
+						{stage === "CONFIRM" && (
+							<Button
+								className="flex-1"
+								variant="secondary"
+								onClick={() => {
+									setStage("EMAIL");
+									resetField("code");
+								}}
+							>
+								edit your email
+							</Button>
+						)}
+						<Button
+							disabled={emailPending || verifyPending}
+							className="flex-1"
+							onClick={submit}
+						>
+							{emailPending || verifyPending ? (
+								<Spinner />
+							) : stage === "EMAIL" ? (
+								<>
+									continue
+									<ArrowRight />
+								</>
+							) : (
+								<>
+									verify
+									<CircleCheck />
+								</>
+							)}
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

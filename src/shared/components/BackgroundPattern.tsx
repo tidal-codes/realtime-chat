@@ -17,7 +17,7 @@ const BackgroundPattern = ({ children }: { children: ReactNode }) => {
                     [-webkit-mask-repeat:repeat-x]
                     [-webkit-mask-size:auto_100%]
                     [-webkit-mask-type:luminance]
-                    opacity-50
+                    opacity-70
                 "
 			/>
 
