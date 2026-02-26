@@ -1,43 +1,37 @@
 import useNewMessage from "@/features/message/hooks/Queries/useNewMessage";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { removeAtsign } from "@/shared/utils/utils";
-import { Send, Smile } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router";
+import Input from "./Input";
+import Actions from "./Actions";
+import SendButton from "./SendButton";
+import { removeAtsign } from "@/shared/utils/utils";
 
 const MessageBox = () => {
 	const [content, setContent] = useState("");
 	const { username } = useParams();
 	const { mutate } = useNewMessage();
+
 	if (!username) return null;
+
+	const handleSend = () => {
+		mutate({
+			username: removeAtsign(username),
+			content,
+		});
+		setContent("");
+	};
+
 	return (
-		<div className="w-full px-25 pb-3">
-			<div className="flex items-center gap-2 p-3 flex-col bg-card rounded-lg">
+		<div className="w-full md:px-30 xl:px-55 py-3">
+			<div className="flex items-center gap-2 p-3 flex-col bg-card rounded-xl border">
 				<div className="w-full">
-					<Input
-						className="w-full"
-						value={content}
-						onChange={(e) => setContent(e.target.value)}
-					/>
+					<Input value={content} onChange={(v) => setContent(v)} />
 				</div>
 				<div className="w-full flex items-center justify-between">
 					<div>
-						<Button>
-							<Smile />
-						</Button>
+						<Actions setContent={setContent} />
 					</div>
-					<Button
-						onClick={() =>
-							mutate({
-								username: removeAtsign(username),
-								content,
-							})
-						}
-					>
-						<Send />
-						send
-					</Button>
+					<SendButton handleSend={handleSend} disabled={!content.trim()} />
 				</div>
 			</div>
 		</div>

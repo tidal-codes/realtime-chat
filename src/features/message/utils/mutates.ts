@@ -63,24 +63,20 @@ export function updateMessage(
 	updatedMessage: Message,
 	oldData: NormalizeMessagesData,
 ): NormalizeMessagesData {
-	// پیام قدیمی وجود داره؟
 	if (!oldData.messagesById[oldMessageId]) return oldData;
 
-	// پیدا کردن گروه پیام قدیمی
 	const groupId = oldData.groupIds.find((gid) =>
 		oldData.groupsById[gid].messageIds.includes(oldMessageId),
 	);
 
-	if (!groupId) return oldData; // اگر گروه پیدا نشد
+	if (!groupId) return oldData;
 
 	const group = oldData.groupsById[groupId];
 
-	// اگر id پیام تغییر کرده، messageIds گروه رو هم آپدیت می‌کنیم
 	const newMessageIds = group.messageIds.map((mid) =>
 		mid === oldMessageId ? updatedMessage.id : mid,
 	);
 
-	// داده نهایی
 	return {
 		...oldData,
 
@@ -95,7 +91,6 @@ export function updateMessage(
 
 		messagesById: {
 			...oldData.messagesById,
-			// حذف پیام قدیمی اگر id تغییر کرده
 			...(oldMessageId !== updatedMessage.id
 				? {
 						[updatedMessage.id]: {

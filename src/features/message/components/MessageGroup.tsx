@@ -13,8 +13,14 @@ const MessageGroup = ({ groupId }: Props) => {
 
 	return (
 		<div className="w-full flex flex-col gap-0.5 px-5">
-			{messageIds?.map((id) => {
-				return <MessageItem key={id} messageId={id} />;
+			{messageIds?.map((id, i) => {
+				return (
+					<MessageItem
+						key={id}
+						hasTail={messageIds.length - 1 === i}
+						messageId={id}
+					/>
+				);
 			})}
 		</div>
 	);

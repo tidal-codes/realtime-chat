@@ -15,6 +15,7 @@ export default function useNewMessage() {
 	const client = useQueryClient();
 	const userId = useAuthStore((state) => state.user?.id);
 	const update = useUpdateConversation();
+
 	const mutation = useMutation({
 		mutationFn: (messageParams: NewMessageParams) =>
 			messageApi.sendMessage(messageParams),
@@ -35,6 +36,8 @@ export default function useNewMessage() {
 			client.setQueryData(
 				["messages", variables.username],
 				(oldData: NormalizeMessagesData) => {
+					console.log(oldData);
+					console.log(variables.username);
 					return addNewMessage(newMessage, oldData);
 				},
 			);

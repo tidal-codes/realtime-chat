@@ -22,7 +22,7 @@ const messageApi = {
 			msg_content: content,
 		});
 		if (error) throw error;
-		return data as Message;
+		return data?.[0] as Message;
 	},
 };
 
