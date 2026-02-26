@@ -1,17 +1,15 @@
-import { Button } from "@/shared/ui/button";
+import TopMenu from "@/shared/components/TopMenu";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/shared/ui/input-group";
-import { EllipsisVertical, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 const Header = () => {
 	return (
 		<div className="w-full flex items-center gap-2 px-2 py-3">
-			<Button variant="outline" size="icon">
-				<EllipsisVertical />
-			</Button>
+			<TopMenu />
 			<InputGroup>
 				<InputGroupInput placeholder="Search For Usernames" />
 				<InputGroupAddon>
