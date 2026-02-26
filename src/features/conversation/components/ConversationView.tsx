@@ -17,7 +17,7 @@ const ConversationView = () => {
 		<div className="w-full h-full">
 			<div className="h-full flex flex-col items-center">
 				<ConversationViewHeader username={usernameWithoutAtsign} />
-				<div className="w-full flex-1">
+				<div className="w-full flex-1 min-h-0 overflow-y-auto">
 					<MessageList />
 				</div>
 				<MessageBox />

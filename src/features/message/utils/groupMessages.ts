@@ -24,18 +24,15 @@ export function groupMessages(messages: Message[]): GroupedMessages[] {
 		}
 
 		const lastMsg = currentGroup[currentGroup.length - 1];
-		const minutesDiff = differenceInMinutes(
-			parseISO(msg.inserted_at),
-			parseISO(lastMsg.inserted_at),
-		);
 
-		if (msg.sender === lastMsg.sender && minutesDiff <= 5) {
+		if (shouldGroupMessages(lastMsg, msg)) {
 			currentGroup.push(msg);
 		} else {
 			groups.push({
 				id: currentGroup.map((m) => m.id).join("_"),
 				messages: currentGroup,
 			});
+
 			currentGroup = [msg];
 		}
 	}
@@ -48,4 +45,13 @@ export function groupMessages(messages: Message[]): GroupedMessages[] {
 	}
 
 	return groups;
+}
+
+export function shouldGroupMessages(prev: Message, current: Message): boolean {
+	const minutesDiff = differenceInMinutes(
+		parseISO(current.inserted_at),
+		parseISO(prev.inserted_at),
+	);
+
+	return prev.sender === current.sender && minutesDiff <= 5;
 }

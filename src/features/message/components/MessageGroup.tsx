@@ -1,3 +1,4 @@
+import React from "react";
 import { useMessages } from "../hooks/Queries/useMessages";
 import MessageItem from "./MessageItem";
 
@@ -19,4 +20,4 @@ const MessageGroup = ({ groupId }: Props) => {
 	);
 };
 
-export default MessageGroup;
+export default React.memo(MessageGroup);

@@ -1,14 +1,8 @@
-import {
-	format,
-	isToday,
-	differenceInDays,
-	isSameYear,
-	parseISO,
-} from "date-fns";
+import { format, isToday, differenceInDays, isSameYear } from "date-fns";
 import { enUS } from "date-fns/locale";
 
 export function formatChatTimestamp(timestamp: string) {
-	const date = parseISO(timestamp);
+	const date = new Date(timestamp);
 
 	if (isToday(date)) {
 		return format(date, "hh:mm a", { locale: enUS });

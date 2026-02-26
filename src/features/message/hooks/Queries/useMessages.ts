@@ -7,13 +7,18 @@ import { useParams } from "react-router";
 import { removeAtsign } from "@/shared/utils/utils";
 
 export const messagesQueryOptions = (username: string | undefined) => {
+	if (!username) throw new Error("username not found");
+	const noAtsignUsername = removeAtsign(username);
+
 	return queryOptions<NormalizeMessagesData>({
-		queryKey: ["messages", username],
+		queryKey: ["messages", noAtsignUsername],
 		queryFn: async () => {
-			if (!username) throw new Error("username not found");
-			const msgs = await messageApi.getMessages(removeAtsign(username));
+			const msgs = await messageApi.getMessages(noAtsignUsername);
 			return normalizeMessagesData(groupMessages(msgs));
 		},
+		staleTime: 1000 * 60 * 10,
+		refetchOnWindowFocus: false,
+		refetchOnMount: false,
 	});
 };
 

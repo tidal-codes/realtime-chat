@@ -4,7 +4,7 @@ import MessageGroup from "./MessageGroup";
 const MessageList = () => {
 	const { data: groupIds } = useMessages((data) => data.groupIds);
 	return (
-		<div className="w-full h-full flex flex-col gap-2">
+		<div className="w-full h-full flex flex-col gap-2 overflow-y-auto">
 			{groupIds?.map((id) => (
 				<MessageGroup key={id} groupId={id} />
 			))}

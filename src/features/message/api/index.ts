@@ -10,6 +10,20 @@ const messageApi = {
 		if (error) throw error;
 		return data as Message[];
 	},
+	sendMessage: async ({
+		username,
+		content,
+	}: {
+		username: string;
+		content: string;
+	}) => {
+		const { data, error } = await supabase.rpc("send_message_to_username", {
+			target_username: username,
+			msg_content: content,
+		});
+		if (error) throw error;
+		return data as Message;
+	},
 };
 
 export default messageApi;

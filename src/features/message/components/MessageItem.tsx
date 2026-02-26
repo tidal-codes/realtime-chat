@@ -1,6 +1,7 @@
 import { useAuthStore } from "@/features/auth/store";
 import { useMessages } from "../hooks/Queries/useMessages";
 import clsx from "clsx";
+import React from "react";
 
 interface Props {
 	messageId: string;
@@ -14,9 +15,17 @@ const MessageItem = ({ messageId }: Props) => {
 
 	return (
 		<div className={clsx("w-full flex", isUserMessage && "justify-end")}>
-			<div className="bg-card py-2 px-3">{message.content}</div>
+			<div
+				className={clsx(
+					"py-2 px-3 rounded-lg",
+					isUserMessage ? "bg-[#685AFF]" : "bg-card",
+				)}
+			>
+				<p>{message.content}</p>
+				<p className="text-xs">{messageId}</p>
+			</div>
 		</div>
 	);
 };
 
-export default MessageItem;
+export default React.memo(MessageItem);
