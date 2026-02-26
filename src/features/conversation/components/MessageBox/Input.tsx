@@ -26,11 +26,11 @@ const Input: React.FC<Props> = ({ value, onChange }) => {
 				contentEditable
 				suppressContentEditableWarning
 				onInput={handleInput}
-				className="min-h-[40px] w-full p-2.5 rounded-md text-base leading-6 
+				className="w-full px-2.5 py-1.5 rounded-md text-base leading-6 
         focus:outline-none break-words whitespace-pre-wrap relative z-10"
 			/>
 			{!value.trim() && (
-				<span className="absolute top-2.5 left-2.5 text-muted-foreground pointer-events-none">
+				<span className="absolute top-[50%] -translate-y-[50%] left-2.5 text-muted-foreground pointer-events-none">
 					Message
 				</span>
 			)}

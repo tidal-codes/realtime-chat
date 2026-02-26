@@ -22,7 +22,7 @@ const MessageBox = () => {
 	};
 
 	return (
-		<div className="w-full md:px-30 xl:px-55 py-3">
+		<div className="w-full md:px-25 xl:px-55 py-3">
 			<div className="flex items-center gap-2 p-3 flex-col bg-card rounded-xl border">
 				<div className="w-full">
 					<Input value={content} onChange={(v) => setContent(v)} />
