@@ -1,21 +1,11 @@
-import TopMenu from "@/shared/components/TopMenu";
-import {
-	InputGroup,
-	InputGroupAddon,
-	InputGroupInput,
-} from "@/shared/ui/input-group";
-import { Search } from "lucide-react";
+import AppSearchInput from "@/shared/components/AppSearchInput";
+import HeaderMenuButton from "@/shared/components/HeaderMenuButton";
 
 const Header = () => {
 	return (
 		<div className="w-full flex items-center gap-2 px-2 py-3">
-			<TopMenu />
-			<InputGroup>
-				<InputGroupInput placeholder="Search For Usernames" />
-				<InputGroupAddon>
-					<Search />
-				</InputGroupAddon>
-			</InputGroup>
+			<HeaderMenuButton />
+			<AppSearchInput />
 		</div>
 	);
 };

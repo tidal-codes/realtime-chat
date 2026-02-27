@@ -1,5 +1,4 @@
-import { EllipsisVertical, LogOut, Settings } from "lucide-react";
-import { Button } from "../ui/button";
+import { LogOut, Settings } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,17 +8,20 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useSearchParams } from "react-router";
+import type { ReactNode } from "react";
 
-const TopMenu = () => {
+interface Props {
+	children: ReactNode;
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+}
+
+const TopMenuDropdown = ({ children, open, onOpenChange }: Props) => {
 	const [, setSearchParams] = useSearchParams();
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant="outline" size="icon">
-					<EllipsisVertical />
-				</Button>
-			</DropdownMenuTrigger>
+		<DropdownMenu open={open} onOpenChange={(open) => onOpenChange(open)}>
+			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuGroup>
 					<DropdownMenuItem
@@ -41,4 +43,4 @@ const TopMenu = () => {
 	);
 };
 
-export default TopMenu;
+export default TopMenuDropdown;

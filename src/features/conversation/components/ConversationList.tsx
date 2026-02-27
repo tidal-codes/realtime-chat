@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ConversationItem from "./ConversationItem";
 import { conversationsQueryOptions } from "../hooks/Queries/useConversations";
+import ConversationSkeleton from "./ConversationSkeleton";
 
 const ConversationList = () => {
 	const { data: conversation_usernames, isLoading } = useQuery({
@@ -11,7 +12,7 @@ const ConversationList = () => {
 	return (
 		<div className="h-full flex flex-col gap-1 p-2">
 			{isLoading ? (
-				<div>data is Loading ...</div>
+				Array.from({ length: 5 }).map(() => <ConversationSkeleton />)
 			) : (
 				<>
 					{conversation_usernames?.map((username) => (
